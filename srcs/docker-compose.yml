@@ -15,13 +15,27 @@ services:
     restart: unless-stopped
 
 
+  mariadb:
+    build: requirements/mariadb/.
+    image: mariadb
+    container_name: mariadb
+    volumes:
+      - /home/lg/lgottsch/data/database:/var/lib/mysql
+    networks:
+      - inception
+    restart: unless-stopped
+    env_file: .env
 
- # wordpress:
- #   build: requirements/wordpress/.
- #   image: wordpress
-  #  volumes:
-   #   - ./home/lgottsch/data/wordpress:/var/www/html
 
+
+  # wordpress:
+  #   build: requirements/wordpress/.
+  #   image: wordpress
+  #   volumes:
+  #     - 
+  #   networks:
+  #     - inception
+  #   restart: unless-stopped
 
 
 networks:

@@ -1,3 +1,4 @@
+#TODO move makefile outside srcs
 
 build:
 	sudo docker compose build
