@@ -3,10 +3,13 @@ set -e
 
 # Use environment variables for DB connection
 # Ensure working directory
+echo "making dir ..."
+
 mkdir -p /var/www/html
 chown -R www-data:www-data /var/www/html
 cd /var/www/html
 
+echo "checking if wp-config.php exists..."
 #Download WordPress if not already present
 if [ ! -f wp-config.php ]; then
     echo "📦 Downloading WordPress..."
@@ -14,9 +17,11 @@ if [ ! -f wp-config.php ]; then
     chmod +x wp-cli.phar
 
 # Download WordPress core
-	
+	echo "download core..."
+
     ./wp-cli.phar core download --allow-root
 
+echo "config create.."
     # Create wp-config.php
 	# db-host = container hosting the db
 	# using normal user for wordpress to conect to db -> securituy
@@ -26,6 +31,8 @@ if [ ! -f wp-config.php ]; then
         --dbpass=$DB_NORMAL_PW \
         --dbhost=mariadb \
         --allow-root
+
+echo "core install.."
 
   # Install WordPress
 	# admin here is WORDPRESS ADMIN:use normal wp user for this (new user also possible)
