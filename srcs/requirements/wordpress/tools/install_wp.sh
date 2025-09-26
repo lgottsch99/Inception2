@@ -10,6 +10,17 @@ chown -R www-data:www-data /var/www/html
 chmod -R 755 /var/www/html
 cd /var/www/html
 
+
+# Wait for MariaDB to be ready
+echo "Waiting for MariaDB..."
+until mariadb -h mariadb -u$DB_NORMAL_USER -p$DB_NORMAL_PW -e "SELECT 1;" &>/dev/null; do
+    echo "MariaDB not ready yet, retrying in 2s..."
+    sleep 2
+done
+echo "MariaDB is ready!"
+
+
+
 echo "checking if wp-config.php exists..."
 #Download WordPress if not already present
 if [ ! -f wp-config.php ]; then
@@ -48,6 +59,6 @@ echo "core install.."
         --allow-root
 fi
 
-
+echo "running final cmd php fpm ..."
 # Start PHP-FPM
 php-fpm8.2 -F
