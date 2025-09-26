@@ -15,16 +15,11 @@ services:
 
 
 
-  wordpress:
-    build: requirements/wordpress/.
-    image: wordpress
-    volumes:
-      - ./home/lgottsch/data/wordpress:/var/www/html
-
-
-
-
-  mariadb:
+ # wordpress:
+ #   build: requirements/wordpress/.
+ #   image: wordpress
+  #  volumes:
+   #   - ./home/lgottsch/data/wordpress:/var/www/html
 
 
 
