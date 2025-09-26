@@ -10,6 +10,7 @@ RUN apt install -y \
 # Copy script
 COPY tools/install_wp.sh /install_wp.sh
 RUN chmod +x /install_wp.sh
+COPY conf/www.conf /etc/php/8.2/fpm/pool.d/www.conf
 
 # Expose port 9000 for Nginx to communicate
 EXPOSE 9000
