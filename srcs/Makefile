@@ -3,7 +3,7 @@ build:
 	sudo docker compose build
 
 up:
-	sudo docker compose up -d
+	sudo docker compose up -d --remove-orphans
 
 down:
 	sudo docker compose down
