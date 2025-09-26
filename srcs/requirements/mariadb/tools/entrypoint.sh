@@ -1,26 +1,28 @@
 #!/bin/bash
 set -e
 
-# Starts mysqld_safe in the background.
-# Waits until the DB server is ready.
-# Runs init.sql only if the data folder (/var/lib/mysql/mysql) doesn’t exist yet.
-# Then brings MariaDB to the foreground.
+# Initialize system DB if missing (before starting MariaDB).
+# Start MariaDB in background.
+# Wait until it responds.
+# Run init.sql only once, using a marker file (not $DATADIR/mysql) to indicate it has run.
 
 # Path to data dir
 DATADIR="/var/lib/mysql"
 
+mkdir -p "$DATADIR"
+chown  -R mysql:mysql "$DATADIR" #change ownership to mariadb user
+
+
+# Initialize system database if missing
+if [ ! -d "$DATADIR/mysql" ]; then
+    echo "📦 Initializing system database..."
+    mariadb-install-db --user=mysql --datadir="$DATADIR"
+fi
 
 # Start MariaDB in safe mode in the background
 mysqld_safe --datadir="$DATADIR" & #& runs the process in the background so the script can continue executing
 pid="$!" #stores PID of the last background process (MariaDB) in the variable pid
 
-
-# If data dir is empty (fresh install), run init.sql
-if [ ! -d "$DATADIR/mysql" ]; then
-    echo "Initializing database with init.sql..."
-    mariadb -uroot < /init.sql #runs init.sql cmds as root
-    echo "Initialization complete."
-fi
 
 # Wait until MariaDB responds
 echo "Waiting for MariaDB to be ready..."
@@ -28,6 +30,15 @@ until mariadb -uroot -e "SELECT 1;" &>/dev/null; do #ries to connect to the data
     sleep 2
 done
 echo "MariaDB is up!"
+
+
+# If first run (fresh install), run init.sql
+if [ ! -f "$DATADIR/.initialized" ]; then
+    echo "Initializing database with init.sql..."
+    mariadb -uroot < /init.sql #runs init.sql cmds as root
+	touch "$DATADIR/.initialized"
+    echo "Initialization complete."
+fi
 
 # makes the script wait for MariaDB server process (the one we started in the background earlier
 wait "$pid"
