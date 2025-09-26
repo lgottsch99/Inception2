@@ -23,7 +23,8 @@ if [ ! -f wp-config.php ]; then
         --allow-root
 
   # Install WordPress
-	# admin here is WORDPRESS ADMIN: gives you the ability to log into WordPress at /wp-admin and manage the site
+	# admin here is WORDPRESS ADMIN:use normal wp user for this (new user also possible)
+	#./wp-cli.phar cor gives you the ability to log into WordPress at /wp-admin and manage the site
     #ok and safe to use normal wp user for this (new user also possible)
 	./wp-cli.phar core install \
         --url=$DOMAIN_NAME \
