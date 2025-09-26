@@ -9,7 +9,7 @@ services:
     ports: 
       - "443:443"
     volumes:
-      - /home/lgottsch/data/wordpress:/var/www/html
+      - /home/lg/lgottsch/data/wordpress:/var/www/html
     networks:
       - inception
     restart: unless-stopped
