@@ -5,7 +5,8 @@ services:
   nginx:
     build: requirements/nginx/.
     image: nginx
-    ports: "443:443" #why???
+    ports: 
+      - "443:443"
     volumes:
       - ./home/lgottsch/data/wordpress:/var/www/html
     networks:
