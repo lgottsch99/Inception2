@@ -2,15 +2,19 @@
 set -e
 
 # Use environment variables for DB connection
+# Ensure working directory
+mkdir -p /var/www/html
+chown -R www-data:www-data /var/www/html
+cd /var/www/html
 
- #Download WordPress if not already present
+#Download WordPress if not already present
 if [ ! -f wp-config.php ]; then
     echo "📦 Downloading WordPress..."
     curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
     chmod +x wp-cli.phar
 
 # Download WordPress core
-	cd /var/www/html
+	
     ./wp-cli.phar core download --allow-root
 
     # Create wp-config.php
