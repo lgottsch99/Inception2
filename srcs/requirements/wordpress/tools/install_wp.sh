@@ -10,6 +10,7 @@ if [ ! -f wp-config.php ]; then
     chmod +x wp-cli.phar
 
 # Download WordPress core
+	cd /var/www/html
     ./wp-cli.phar core download --allow-root
 
     # Create wp-config.php
