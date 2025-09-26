@@ -35,7 +35,17 @@ echo "MariaDB is up!"
 # If first run (fresh install), run init.sql
 if [ ! -f "$DATADIR/.initialized" ]; then
     echo "Initializing database with init.sql..."
-    mariadb -uroot < /init.sql #runs init.sql cmds as root
+    mariadb -uroot <<-EOSQL
+CREATE DATABASE IF NOT EXISTS ${DB_NAME} CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+CREATE USER IF NOT EXISTS '${DB_NORMAL_USER}'@'%' IDENTIFIED BY '${DB_NORMAL_PW}';
+GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${DB_NORMAL_USER}'@'%';
+
+CREATE USER IF NOT EXISTS '${DB_ADMIN}'@'%' IDENTIFIED BY '${DB_ADMIN_PW}';
+GRANT ALL PRIVILEGES ON *.* TO '${DB_ADMIN}'@'%' WITH GRANT OPTION;
+
+FLUSH PRIVILEGES;
+EOSQL
 	touch "$DATADIR/.initialized"
     echo "Initialization complete."
 fi

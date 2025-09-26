@@ -9,7 +9,7 @@ RUN apt install -y mariadb-server mariadb-client
 
 #copy init scrpts into cont
 COPY tools/entrypoint.sh /entrypoint.sh
-COPY tools/init.sql /init.sql
+#COPY tools/init.sql /init.sql
 RUN chmod +x /entrypoint.sh
 
 WORKDIR /var/lib/mysql
