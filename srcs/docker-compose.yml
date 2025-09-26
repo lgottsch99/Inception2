@@ -1,0 +1,32 @@
+
+
+services:
+
+  nginx:
+    build: requirements/nginx/.
+    image: nginx
+    ports: "443:443" #why???
+    volumes:
+      - ./home/lgottsch/data/wordpress:/var/www/html
+    networks:
+      - inception
+    restart: unless-stopped
+
+
+
+  wordpress:
+    build: requirements/wordpress/.
+    image: wordpress
+    volumes:
+      - ./home/lgottsch/data/wordpress:/var/www/html
+
+
+
+
+  mariadb:
+
+
+
+networks:
+  inception:
+    driver: bridge
