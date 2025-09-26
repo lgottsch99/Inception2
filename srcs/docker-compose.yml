@@ -13,6 +13,7 @@ services:
     networks:
       - inception
     restart: unless-stopped
+    env_file: .env
 
 
   mariadb:
@@ -28,14 +29,16 @@ services:
 
 
 
-  # wordpress:
-  #   build: requirements/wordpress/.
-  #   image: wordpress
-  #   volumes:
-  #     - 
-  #   networks:
-  #     - inception
-  #   restart: unless-stopped
+  wordpress:
+    build: requirements/wordpress/.
+    image: wordpress
+    container_name: wordpress
+    volumes:
+      - /home/lg/lgottsch/data/wordpress:/var/www/html
+    networks:
+      - inception
+    restart: unless-stopped
+    env_file: .env
 
 
 networks:
