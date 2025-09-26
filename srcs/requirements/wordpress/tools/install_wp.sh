@@ -7,6 +7,7 @@ echo "making dir ..."
 
 mkdir -p /var/www/html
 chown -R www-data:www-data /var/www/html
+chmod -R 755 /var/www/html
 cd /var/www/html
 
 echo "checking if wp-config.php exists..."
@@ -19,7 +20,7 @@ if [ ! -f wp-config.php ]; then
 # Download WordPress core
 	echo "download core..."
 
-    ./wp-cli.phar core download --allow-root
+    ./wp-cli.phar core download --allow-root --force
 
 echo "config create.."
     # Create wp-config.php
@@ -43,7 +44,7 @@ echo "core install.."
         --title="Inception" \
         --admin_user=$DB_NORMAL_USER \
         --admin_password=$DB_NORMAL_PW \
-        --admin_email=$DP_NORMAL_MAIL \
+        --admin_email=$DB_NORMAL_MAIL \
         --allow-root
 fi
 
