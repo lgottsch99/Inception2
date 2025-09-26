@@ -20,7 +20,7 @@ if [ ! -d "$DATADIR/mysql" ]; then
 fi
 
 # Start MariaDB in safe mode in the background
-mysqld_safe --datadir="$DATADIR" & #& runs the process in the background so the script can continue executing
+mysqld_safe --datadir="$DATADIR" --bind-address=0.0.0.0 & #& runs the process in the background so the script can continue executing
 pid="$!" #stores PID of the last background process (MariaDB) in the variable pid
 
 
