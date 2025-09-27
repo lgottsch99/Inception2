@@ -5,7 +5,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt update -y && apt upgrade -y
 
 #install mariadb server
-RUN apt install -y mariadb-server mariadb-client
+RUN apt install -y mariadb-server mariadb-client gosu
 
 #copy init scrpts into cont
 COPY tools/entrypoint.sh /entrypoint.sh
