@@ -30,7 +30,6 @@ services:
       - db_admin_pw
       - db_normal_pw
 
-
   wordpress:
     build: requirements/wordpress/.
     image: wordpress
