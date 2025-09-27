@@ -12,7 +12,7 @@ services:
       - wordpress_data:/var/www/html
     networks:
       - inception
-    restart: unless-stopped
+    restart: always
     env_file: .env
 
 
@@ -24,7 +24,7 @@ services:
       - database_data:/var/lib/mysql
     networks:
       - inception
-    restart: unless-stopped
+    restart: always
     env_file: .env
     secrets:
       - db_admin_pw
@@ -38,7 +38,7 @@ services:
       - wordpress_data:/var/www/html
     networks:
       - inception
-    restart: unless-stopped
+    restart: always
     env_file: .env
     depends_on:
       - mariadb

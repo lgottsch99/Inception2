@@ -24,7 +24,10 @@ fi
 if [ ! -f "$DATADIR/.initialized" ]; then
     echo "Initializing database..."
 
-    mysqld --datadir="$DATADIR" --bootstrap <<-EOSQL
+    mysqld  --user=mysql --datadir="$DATADIR" --bootstrap <<-EOSQL
+ALTER USER 'root'@'localhost' IDENTIFIED BY '${DB_ADMIN_PW}';
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '${DB_ADMIN_PW}' WITH GRANT OPTION;
+
 CREATE DATABASE IF NOT EXISTS \`${DB_NAME}\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 CREATE USER IF NOT EXISTS '${DB_NORMAL_USER}'@'%' IDENTIFIED BY '${DB_NORMAL_PW}';
@@ -43,5 +46,5 @@ EOSQL
     echo "Initialization complete."
 fi
 
-
-exec /usr/bin/mysqld_safe --datadir="$DATADIR" --bind-address=0.0.0.0
+echo "Starting MariaDB ..."
+exec mysqld --datadir="$DATADIR" --user=mysql --bind-address=0.0.0.0
