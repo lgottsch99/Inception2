@@ -34,7 +34,8 @@ fi
 # If first run (fresh install), run init.sql
 if [ ! -f "$DATADIR/.initialized" ]; then
     echo "Initializing database with init.sql..."
-    mysqld --datadir="$DATADIR" --skip-networking --bootstrap <<-EOSQL
+
+    mysqld --datadir="$DATADIR" --skip-networking --user=mysql --bootstrap <<-EOSQL
 CREATE DATABASE IF NOT EXISTS ${DB_NAME} CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 CREATE USER IF NOT EXISTS '${DB_NORMAL_USER}'@'%' IDENTIFIED BY '${DB_NORMAL_PW}';
@@ -52,4 +53,5 @@ fi
 
 # makes the script wait for MariaDB server process (the one we started in the background earlier
 # wait "$pid"
-exec mysqld --datadir="$DATADIR" --bind-address=0.0.0.0
+# exec mysqld --datadir="$DATADIR" --bind-address=0.0.0.0
+exec su-exec mysql mysqld --datadir="$DATADIR" --bind-address=0.0.0.0
