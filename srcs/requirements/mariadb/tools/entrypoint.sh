@@ -35,7 +35,7 @@ fi
 if [ ! -f "$DATADIR/.initialized" ]; then
     echo "Initializing database with init.sql..."
 
-    mysqld --datadir="$DATADIR" --skip-networking --user=mysql --bootstrap <<-EOSQL
+    mysqld --datadir="$DATADIR" --bootstrap <<-EOSQL
 CREATE DATABASE IF NOT EXISTS ${DB_NAME} CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 CREATE USER IF NOT EXISTS '${DB_NORMAL_USER}'@'%' IDENTIFIED BY '${DB_NORMAL_PW}';
@@ -55,4 +55,5 @@ fi
 # wait "$pid"
 # exec mysqld --datadir="$DATADIR" --bind-address=0.0.0.0
 # exec su-exec mysql mysqld --datadir="$DATADIR" --bind-address=0.0.0.0
-exec gosu mysql mysqld --datadir="$DATADIR" --bind-address=0.0.0.0
+# exec gosu mysql mysqld --datadir="$DATADIR" --bind-address=0.0.0.0
+exec mysqld_safe --datadir="$DATADIR" --bind-address=0.0.0.0
