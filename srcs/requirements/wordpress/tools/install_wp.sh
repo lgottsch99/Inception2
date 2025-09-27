@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+MAX_RETRIES=15
+count=0
+
 # Use environment variables for DB connection
 # Ensure working directory
 echo "making dir ..."
@@ -16,7 +19,12 @@ DB_NORMAL_PW=$(cat /run/secrets/db_normal_pw)
 # Wait for MariaDB to be ready
 echo "Waiting for MariaDB..."
 until mariadb -h mariadb -u$DB_NORMAL_USER -p$DB_NORMAL_PW -e "SELECT 1;" &>/dev/null; do
-    echo "MariaDB not ready yet, retrying in 2s..."
+    count=$((count+1))
+	if [ $count -ge $MAX_RETRIES ]; then
+        echo "MariaDB not ready after $MAX_RETRIES attempts, exiting."
+        exit 1
+	fi
+	echo "MariaDB not ready yet, retrying in 2s..."
     sleep 2
 done
 echo "MariaDB is ready!"
