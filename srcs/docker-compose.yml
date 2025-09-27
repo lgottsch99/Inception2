@@ -54,6 +54,6 @@ networks:
 
 secrets:
   db_admin_pw: 
-    file: ./secrets/db_root_password.txt
+    file: ../secrets/db_root_password.txt
   db_normal_pw:
-    file: ./secrets/db_password.txt
+    file: ../secrets/db_password.txt
