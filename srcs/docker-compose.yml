@@ -9,7 +9,7 @@ services:
     ports: 
       - "443:443"
     volumes:
-      - /home/lg/lgottsch/data/wordpress:/var/www/html
+      - wordpress_data:/var/www/html
     networks:
       - inception
     restart: unless-stopped
@@ -21,7 +21,7 @@ services:
     image: mariadb
     container_name: mariadb
     volumes:
-      - /home/lg/lgottsch/data/database:/var/lib/mysql
+      - database_data:/var/lib/mysql
     networks:
       - inception
     restart: unless-stopped
@@ -36,7 +36,7 @@ services:
     image: wordpress
     container_name: wordpress
     volumes:
-      - /home/lg/lgottsch/data/wordpress:/var/www/html
+      - wordpress_data:/var/www/html
     networks:
       - inception
     restart: unless-stopped
@@ -50,6 +50,21 @@ services:
 networks:
   inception:
     driver: bridge
+
+volumes:
+  database_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/lg/lgottsch/data/database
+
+  wordpress_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/lg/lgottsch/data/wordpress
 
 
 secrets:
