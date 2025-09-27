@@ -9,6 +9,10 @@ set -e
 # Path to data dir
 DATADIR="/var/lib/mysql"
 
+#read docker secrets 
+DB_NORMAL_PW=$(cat /run/secrets/db_normal_pw)
+DB_ADMIN_PW=$(cat /run/secrets/db_admin_pw)
+
 mkdir -p "$DATADIR"
 chown  -R mysql:mysql "$DATADIR" #change ownership to mariadb user
 
@@ -46,6 +50,7 @@ GRANT ALL PRIVILEGES ON *.* TO '${DB_ADMIN}'@'%' WITH GRANT OPTION;
 
 FLUSH PRIVILEGES;
 EOSQL
+
 	touch "$DATADIR/.initialized"
     echo "Initialization complete."
 fi

@@ -26,7 +26,9 @@ services:
       - inception
     restart: unless-stopped
     env_file: .env
-
+    secrets:
+      - db_admin_pw
+      - db_normal_pw
 
 
   wordpress:
@@ -41,8 +43,17 @@ services:
     env_file: .env
     depends_on:
       - mariadb
+    secrets:
+      - db_normal_pw
 
 
 networks:
   inception:
     driver: bridge
+
+
+secrets:
+  db_admin_pw: 
+    file: ./secrets/db_root_pw.txt
+  db_normal_pw:
+    file: ./secrets/db_password.txt

@@ -10,6 +10,8 @@ chown -R www-data:www-data /var/www/html
 chmod -R 755 /var/www/html
 cd /var/www/html
 
+#read docker secrets
+DB_NORMAL_PW=$(cat run/secrets/db_normal_pw)
 
 # Wait for MariaDB to be ready
 echo "Waiting for MariaDB..."
