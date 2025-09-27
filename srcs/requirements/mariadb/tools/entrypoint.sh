@@ -53,5 +53,5 @@ fi
 
 # makes the script wait for MariaDB server process (the one we started in the background earlier
 # wait "$pid"
-# exec mysqld --datadir="$DATADIR" --bind-address=0.0.0.0
-exec su-exec mysql mysqld --datadir="$DATADIR" --bind-address=0.0.0.0
+exec mysqld --datadir="$DATADIR" --bind-address=0.0.0.0
+# exec su-exec mysql mysqld --datadir="$DATADIR" --bind-address=0.0.0.0
