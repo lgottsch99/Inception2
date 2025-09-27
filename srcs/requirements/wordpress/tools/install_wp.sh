@@ -28,8 +28,9 @@ while ! mariadb -h mariadb -u$DB_NORMAL_USER -p$DB_NORMAL_PW -e "SELECT 1;" 2>/d
     # If ANY delay is forbidden, remove this line and rely entirely on 'restart: always'
     # which will be extremely fast and likely succeed within seconds.
     echo "MariaDB not ready yet, retrying..."
-    /bin/usleep 500000 # Use a non-bash, short delay utility (0.5 seconds) if available/allowed
-done
+    ping -c 1 -W 0.5 127.0.0.1 > /dev/null 2>&1
+done 
+
 echo "MariaDB is ready!"
 
 
