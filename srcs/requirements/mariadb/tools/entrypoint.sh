@@ -16,18 +16,17 @@ chmod -R 700 "$DATADIR"
 # Initialize system database if missing
 if [ ! -d "$DATADIR/mysql" ]; then
     echo "Initializing system database..."
-    mariadb-install-db --user=mysql --datadir="$DATADIR" --skip-log-bin
+    gosu mysql mariadb-install-db --user=mysql --datadir="$DATADIR" --skip-log-bin
 fi
-
-#ALTER USER 'root'@'localhost' IDENTIFIED BY '${DB_ADMIN_PW}';
-#GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '${DB_ADMIN_PW}' WITH GRANT OPTION;
 
 
 # If first run (fresh install), run init.sql
 if [ ! -f "$DATADIR/.initialized" ]; then
     echo "Initializing database..."
 
-    mysqld  --user=mysql --datadir="$DATADIR" --bootstrap <<-EOSQL
+    gosu mysql mysqld  --user=mysql --datadir="$DATADIR" --bootstrap <<-EOSQL
+ALTER USER 'root'@'localhost' IDENTIFIED BY '${DB_ADMIN_PW}';
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '${DB_ADMIN_PW}' WITH GRANT OPTION;
 
 CREATE DATABASE IF NOT EXISTS \`${DB_NAME}\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -48,4 +47,4 @@ EOSQL
 fi
 
 echo "Starting MariaDB ..."
-exec mysqld --datadir="$DATADIR" --user=mysql --bind-address=0.0.0.0
+exec gosu mysql mysqld --datadir="$DATADIR" --user=mysql --bind-address=0.0.0.0
