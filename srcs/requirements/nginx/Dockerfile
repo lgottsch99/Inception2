@@ -8,6 +8,8 @@ RUN apt install nginx -y
 #install openssl (for tls)
 RUN apt install openssl -y
 
+# Remove default config so only your custom config is used
+RUN rm -f /etc/nginx/conf.d/default.conf
 #cpy config into container
 COPY config/nginx.conf /etc/nginx/nginx.conf
 
