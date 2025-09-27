@@ -2,13 +2,13 @@
 COMPOSE_FILE = -f srcs/docker-compose.yml
 
 build:
-	sudo docker compose $(COMPOSE_FILE) build
+	docker compose $(COMPOSE_FILE) build
 
 up:
-	sudo docker compose $(COMPOSE_FILE) up -d 
+	docker compose $(COMPOSE_FILE) up -d 
 
 down:
-	sudo docker compose $(COMPOSE_FILE) down
+	docker compose $(COMPOSE_FILE) down
 
 status:
-	sudo docker ps
+	docker ps
