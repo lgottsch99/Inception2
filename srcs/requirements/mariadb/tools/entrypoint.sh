@@ -20,14 +20,15 @@ if [ ! -d "$DATADIR/mysql" ]; then
 fi
 
 
+#ALTER USER 'root'@'localhost' IDENTIFIED BY '${DB_ADMIN_PW}';
+#GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '${DB_ADMIN_PW}' WITH GRANT OPTION;
+
+
 # If first run (fresh install), run init.sql
 if [ ! -f "$DATADIR/.initialized" ]; then
     echo "Initializing database..."
 
     gosu mysql mysqld  --user=mysql --datadir="$DATADIR" --bootstrap <<-EOSQL
-ALTER USER 'root'@'localhost' IDENTIFIED BY '${DB_ADMIN_PW}';
-GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '${DB_ADMIN_PW}' WITH GRANT OPTION;
-
 CREATE DATABASE IF NOT EXISTS \`${DB_NAME}\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 CREATE USER IF NOT EXISTS '${DB_NORMAL_USER}'@'%' IDENTIFIED BY '${DB_NORMAL_PW}';
